@@ -6,6 +6,10 @@ class Matrix22 {
     this.mtx = [[a1, a2], [b1, b2]]
   }
 
+  static empty() {
+    return new Matrix22(1, 0, 0, 1);
+  }
+
   mul(m: Matrix22) {
     const A = this.mtx;
     const B = m.mtx;
@@ -16,8 +20,27 @@ class Matrix22 {
       A[1][0] * B[1][0] + A[1][1] * B[1][1],
     );
   }
-  mulV(vec: number[]) {
 
+  add(vec: number[]) {
+    const A = this.mtx;
+    return new Matrix22(
+      A[0][0] + vec[0],
+      A[0][1] + vec[0],
+      A[1][0] + vec[1],
+      A[1][1] + vec[1],
+    );
+  }
+
+  mulV(vec: number[]) {
+    const A = this.mtx;
+    return [
+      A[0][0] * vec[0] + A[0][1] * vec[1],
+      A[1][0] * vec[0] + A[1][1] * vec[1],
+    ];
+  }
+
+  log() {
+    console.table(this.mtx);
   }
 }
 
@@ -25,7 +48,10 @@ class Figure {
   p: number[][];
 
   apply(mtx: Matrix22) {
-
+    this.p = this.p.map((vec) => {
+      return mtx.mulV(vec);
+    });
+    return this;
   }
 }
 
@@ -41,7 +67,7 @@ class Rect extends Figure{
   }
 }
 
-class Rect2 extends Figure {
+class Poly extends Figure {
   constructor(public p: number[][]) {
     super();
   }
@@ -83,13 +109,11 @@ class Draw {
 }
 
 
-let A = new Matrix22(1, 0, 0, 1 / 2);
-let B = new Matrix22(-1, 0, 0, 1);
-
 
 const draw = new Draw();
 draw.add(new Rect(1, 1, 50, 50));
-draw.add(new Rect2([[50,50], [50, 50], [100, 50], [100, 100]]));
-draw.draw();
+draw.add(new Poly([[50,50], [50, 50], [100, 50], [100, 100]]));
 
-console.log(A.mul(B));
+draw.add(new Rect(1, 1, 50, 50).apply(Matrix22.empty().add([50, 50])));
+
+draw.draw();
