@@ -37,6 +37,10 @@ class Matrix22 {
     return new Matrix22(1, Math.tan(degToRad(ang)), 0, 1);
   }
 
+  static scale(x, y) {
+    return new Matrix22(x, 0, 0, y);
+  }
+
   static simmetr(sym: 'x' | 'y') {
     if (sym == "x") {
       return new Matrix22(-1, 0, 0, 1);
@@ -78,12 +82,35 @@ class Matrix22 {
   }
 }
 
+interface Operation {
+  mul?: Matrix22;
+  add?: number[]
+}
 class Figure {
   p: number[][];
 
-  apply(mtx: Matrix22) {
+  transform(mtx: Matrix22) {
     this.p = this.p.map((vec) => {
       return mtx.mulV(vec);
+    });
+    return this;
+  }
+
+  add(vec: number[]) {
+    this.p = this.p.map((v) => {
+      return [v[0] + vec[0], v[1] + vec[1]];
+    });
+    return this;
+  }
+
+  apply(arr: Operation[]) {
+    arr.forEach(op => {
+      if (op.hasOwnProperty('mul')) {
+        this.transform(op.mul);
+      }
+      if (op.hasOwnProperty('add')) {
+        this.add(op.add);
+      }
     });
     return this;
   }
@@ -180,21 +207,18 @@ class Draw {
 
 
 const draw = new Draw();
-let matrix = Matrix22.empty()
-  .mul(new Matrix22(2, 0, 0, 2))
-  .mul(new Matrix22(1, 0, 0, 1/2))
-  .mul(Matrix22.shift(-27))
-  .mul(Matrix22.simmetr('x'))
-  .mul(Matrix22.simmetr('y'));
-
-  // .mul(Matrix22.rotate(45))
-
-
-// draw.add(new Rect(0, 0, 50, 50));
+let operations = [
+  {mul: Matrix22.scale(25, 25)},
+  {mul: Matrix22.scale(1, .5)},
+  {mul: Matrix22.shift(-45)},
+  {mul: Matrix22.simmetr('y')},
+  {mul: Matrix22.simmetr('x')},
+  {mul: Matrix22.rotate(90)},
+];
 
 draw.add(
-  new Poly([[20, 0], [40, 0], [40, -40], [20, -40]]).apply(matrix)
+  new Poly([[2, 0], [4, 0], [4, -4], [2, -4]]).apply(operations)
 );
-// draw.add(new Rect(0, 0, 100, 50).apply(matrix));
+// draw.add(new Rect(0, 0, 100, 50).transform(matrix));
 
 console.log(draw.draw());
