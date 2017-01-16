@@ -147,7 +147,7 @@ class Draw {
       const points = f.p;
       ctx.beginPath();
       points.forEach(([x, y]) => {
-        ctx.lineTo(x + this.from[0], y + this.from[1]);
+        ctx.lineTo(x + this.from[0], -y + this.from[1]);
       });
       ctx.fillStyle = 'black';
       ctx.fill();
@@ -163,6 +163,6 @@ let matrix = Matrix22.empty().mul(Matrix22.shift(10)).mul(Matrix22.rotate(10));
 // draw.add(new Rect(0, 0, 50, 50));
 
 // draw.add(new Poly([[50,50], [50, 50], [100, 50], [100, 100]]));
-draw.add(new Rect(1, 1, 50, 50).apply(matrix));
+draw.add(new Rect(0, 0, 50, 50).apply(Matrix22.empty()));
 
 draw.draw();
