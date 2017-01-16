@@ -37,6 +37,13 @@ class Matrix22 {
     return new Matrix22(1, Math.tan(degToRad(ang)), 0, 1);
   }
 
+  static simmetr(sym: 'x' | 'y') {
+    if (sym == "x") {
+      return new Matrix22(-1, 0, 0, 1);
+    }
+    return new Matrix22(1, 0, 0, -1);
+  }
+
   mul(m: Matrix22) {
     const A = this.mtx;
     const B = m.mtx;
@@ -120,18 +127,33 @@ class Draw {
   }
 
   drawGrid() {
+    let grey = '#b7b7b7';
+    let light = '#e9e9e9';
     const {height, width, ctx, from} = this;
-    ctx.strokeStyle = '#e9e9e9';
-    for (let x = 0.5; x < width; x+=10) {
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
+    for (let x = 0; x < width; x+=10) {
+      ctx.moveTo(x + .5, 0);
+      ctx.lineTo(x + .5, height);
+    }
+    ctx.strokeStyle = light;
+    ctx.stroke();
+    for (let y = 0; y < height; y+=10) {
+      if (y % 50 == 0) {
+        ctx.strokeStyle = grey;
+      } else {
+        ctx.strokeStyle = light
+      }
+      ctx.beginPath();
+      ctx.moveTo(0, y + .5);
+      ctx.lineTo(width, y + .5);
       ctx.stroke();
     }
-    for (let y = 0.5; y < height; y+=10) {
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
-      ctx.stroke();
+    for (let x = 0; x < width; x+=50) {
+      ctx.moveTo(x + .5, 0);
+      ctx.lineTo(x + .5, height);
     }
+    ctx.strokeStyle = grey;
+    ctx.stroke();
+
     ctx.fillStyle = '#3c3c3c';
     ctx.fillRect(from[0] - 1, from[1] - 1, 3, 3);
     ctx.fill();
@@ -158,11 +180,21 @@ class Draw {
 
 
 const draw = new Draw();
-let matrix = Matrix22.empty().mul(Matrix22.shift(10)).mul(Matrix22.rotate(10));
+let matrix = Matrix22.empty()
+  .mul(new Matrix22(2, 0, 0, 2))
+  .mul(new Matrix22(1, 0, 0, 1/2))
+  .mul(Matrix22.shift(-27))
+  .mul(Matrix22.simmetr('x'))
+  .mul(Matrix22.simmetr('y'));
+
+  // .mul(Matrix22.rotate(45))
+
 
 // draw.add(new Rect(0, 0, 50, 50));
 
-// draw.add(new Poly([[50,50], [50, 50], [100, 50], [100, 100]]));
-draw.add(new Rect(0, 0, 50, 50).apply(Matrix22.empty()));
+draw.add(
+  new Poly([[20, 0], [40, 0], [40, -40], [20, -40]]).apply(matrix)
+);
+// draw.add(new Rect(0, 0, 100, 50).apply(matrix));
 
-draw.draw();
+console.log(draw.draw());
