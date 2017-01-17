@@ -150,7 +150,11 @@ class Draw {
   }
 
   add(f) {
-    this.figures.push(f);
+    if (f.length) {
+      f.forEach(f => this.figures.push(f));
+    } else {
+      this.figures.push(f);
+    }
   }
 
   drawGrid() {
@@ -209,16 +213,25 @@ class Draw {
 const draw = new Draw();
 let operations = [
   {mul: Matrix22.scale(25, 25)},
-  {mul: Matrix22.scale(1, .5)},
-  {mul: Matrix22.shift(-45)},
-  {mul: Matrix22.simmetr('y')},
+  // {mul: Matrix22.scale(1, .5)},
+  {mul: Matrix22.shift(45)},
+  // {mul: Matrix22.simmetr('y')},
+  // {mul: Matrix22.simmetr('x')},
+  // {mul: Matrix22.rotate(90)},
+];
+let operations1 = [
+  {mul: Matrix22.scale(25, 25)},
+  // {mul: Matrix22.scale(1, .5)},
+  {mul: Matrix22.shift(45)},
+  // {mul: Matrix22.simmetr('y')},
   {mul: Matrix22.simmetr('x')},
-  {mul: Matrix22.rotate(90)},
+  // {mul: Matrix22.rotate(90)},
 ];
 
-draw.add(
+draw.add([
+  new Rect(0, 0, 2, 2).apply(operations1),
   new Poly([[2, 0], [4, 0], [4, -4], [2, -4]]).apply(operations)
-);
+]);
 // draw.add(new Rect(0, 0, 100, 50).transform(matrix));
 
 console.log(draw.draw());
