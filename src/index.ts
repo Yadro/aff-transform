@@ -34,7 +34,7 @@ class Matrix22 {
   }
 
   static shift(ang) {
-    return new Matrix22(1, Math.tan(degToRad(ang)), 0, 1);
+    return new Matrix22(1, tan(ang), 0, 1);
   }
 
   static scale(x, y) {
@@ -86,7 +86,7 @@ interface Operation {
   mul?: Matrix22;
   add?: number[]
 }
-class Figure {
+abstract class Figure {
   p: number[][];
 
   transform(mtx: Matrix22) {
@@ -211,10 +211,18 @@ class Draw {
 
 
 const draw = new Draw();
+
+let alpha = 15;
+
 let operations = [
   {mul: Matrix22.scale(25, 25)},
+  {mul: new Matrix22(
+    -1, 0,
+    1, -1
+  )},
+
   // {mul: Matrix22.scale(1, .5)},
-  {mul: Matrix22.shift(45)},
+  // {mul: Matrix22.shift(45)},
   // {mul: Matrix22.simmetr('y')},
   // {mul: Matrix22.simmetr('x')},
   // {mul: Matrix22.rotate(90)},
@@ -229,9 +237,9 @@ let operations1 = [
 ];
 
 draw.add([
-  new Rect(0, 0, 2, 2).apply(operations1),
-  new Poly([[2, 0], [4, 0], [4, -4], [2, -4]]).apply(operations)
+  new Rect(0, 0, 2, 2).apply(operations),
+  // new Poly([[2, 0], [4, 0], [4, -4], [2, -4]]).apply(operations)
 ]);
 // draw.add(new Rect(0, 0, 100, 50).transform(matrix));
 
-console.log(draw.draw());
+draw.draw();
