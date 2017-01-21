@@ -21,8 +21,12 @@ function tan(ang) {
 export class Matrix22 {
   private mtx;
 
-  constructor(a1, a2, b1, b2) {
-    this.mtx = [[a1, a2], [b1, b2]]
+  constructor(a1, a2?, b1?, b2?) {
+    if (typeof a1 == "number") {
+      this.mtx = [[a1, a2], [b1, b2]]
+    } else {
+      this.mtx = a1;
+    }
   }
 
   static empty() {
@@ -86,7 +90,7 @@ export class Matrix22 {
   }
 }
 
-interface Operation {
+export interface Operation {
   mul?: Matrix22;
   add?: number[]
 }
@@ -120,7 +124,7 @@ abstract class Figure {
   }
 }
 
-class Rect extends Figure{
+export class Rect extends Figure{
   constructor(public x, public y, public h, public w) {
     super();
     this.p = [
@@ -132,13 +136,13 @@ class Rect extends Figure{
   }
 }
 
-class Poly extends Figure {
+export class Poly extends Figure {
   constructor(public p: number[][]) {
     super();
   }
 }
 
-class Draw {
+export class Draw {
   ctx: CanvasRenderingContext2D;
   width;
   height;
@@ -161,7 +165,11 @@ class Draw {
     }
   }
 
-  drawGrid() {
+  clear() {
+    this.figures = [];
+  }
+
+  private drawGrid() {
     let grey = '#b7b7b7';
     let light = '#e9e9e9';
     const {height, width, ctx, from} = this;
@@ -211,39 +219,3 @@ class Draw {
     });
   }
 }
-
-
-
-const draw = new Draw();
-
-let alpha = 15;
-
-let operations = [
-  {mul: Matrix22.scale(25, 25)},
-  {mul: new Matrix22(
-    -1, 0,
-    1, -1
-  )},
-
-  // {mul: Matrix22.scale(1, .5)},
-  // {mul: Matrix22.shift(45)},
-  // {mul: Matrix22.simmetr('y')},
-  // {mul: Matrix22.simmetr('x')},
-  // {mul: Matrix22.rotate(90)},
-];
-let operations1 = [
-  {mul: Matrix22.scale(25, 25)},
-  // {mul: Matrix22.scale(1, .5)},
-  {mul: Matrix22.shift(45)},
-  // {mul: Matrix22.simmetr('y')},
-  {mul: Matrix22.simmetr('x')},
-  // {mul: Matrix22.rotate(90)},
-];
-
-draw.add([
-  new Rect(0, 0, 2, 2).apply(operations),
-  // new Poly([[2, 0], [4, 0], [4, -4], [2, -4]]).apply(operations)
-]);
-// draw.add(new Rect(0, 0, 100, 50).transform(matrix));
-
-draw.draw();

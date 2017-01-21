@@ -4,7 +4,6 @@ import {Data} from "./MatrixInput";
 
 interface MatrixContainerP {
   data: Data;
-  onAdd: (e) => any;
   onRemove: (e) => any;
   onChange;
 }
@@ -18,18 +17,17 @@ export default class MatrixContainer extends React.Component<MatrixContainerP, a
     const {data, onChange, onRemove} = this.props;
     const el = [];
     for (let id in data) {
-      let dataI = data[id];
-      el.push(<MatrixInput value={dataI} onChange={onChange.bind(null, id)} onRemove={onRemove.bind(null, id)}/>);
+      if (data.hasOwnProperty(id)) {
+        let dataI = data[id];
+        el.push(<MatrixInput value={dataI} onChange={onChange.bind(null, id)} onRemove={onRemove.bind(null, +id)}/>);
+      }
     }
     return el;
   }
 
   render() {
-    const {onAdd} = this.props;
-    return <div>
+    return <div className="matrixContainer">
       {this.renderMatrix()}
-      <button onClick={onAdd}>+</button>
-      <button>Apply</button>
     </div>
   }
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import MatrixContainer from "./MatrixContainer";
 import {Data, MatrixData} from "./MatrixInput";
+import {Draw, Matrix22, Rect, Operation} from "./Transformations";
 
 
 interface InterfaceS {
@@ -13,6 +14,8 @@ interface InterfaceS {
 }
 export default class Interface extends React.Component<any, InterfaceS> {
 
+  drawControl = new Draw();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +26,10 @@ export default class Interface extends React.Component<any, InterfaceS> {
     [
       'add',
       'remove',
-      'onChange'
+      'onChange',
+      'apply'
     ].forEach(fn => this[fn] = this[fn].bind(this));
+    this.drawControl.draw();
   }
 
   add() {
@@ -42,9 +47,13 @@ export default class Interface extends React.Component<any, InterfaceS> {
   }
 
   remove(i) {
-    let {matrix} = this.state;
+    let {matrix, data} = this.state;
+    delete data[i];
     matrix = matrix.filter(e => e.id != i);
-    this.setState({matrix});
+    this.setState({
+      matrix,
+      data
+    });
   }
 
   onChange(id, row, pos, e) {
@@ -54,14 +63,31 @@ export default class Interface extends React.Component<any, InterfaceS> {
   }
 
   apply() {
+    const {drawControl, state} = this;
+    const {data} = state;
+    let transforms: Operation[] = [];
+    for (let id in data) {
+      if (data.hasOwnProperty(id)) {
+        let matrix = data[id];
+        matrix = matrix.map(e => e.map(e => +e));
+        transforms.push({mul: new Matrix22(matrix)});
+      }
+    }
 
+    drawControl.clear();
+    drawControl.add(new Rect(0, 0, 50, 50).apply(transforms));
+    drawControl.draw();
   }
 
   render() {
     const {data} = this.state;
-    return <div>
-      <h3>Affin transformations</h3>
-      <MatrixContainer data={data} onAdd={this.add} onRemove={this.remove} onChange={this.onChange}/>
+    return <div className="interface">
+      <h3>Affine transformations</h3>
+      <div className="btns">
+        <button onClick={this.add}>+</button>
+        <button onClick={this.apply}>Apply</button>
+      </div>
+      <MatrixContainer data={data} onRemove={this.remove} onChange={this.onChange}/>
     </div>;
   }
 }
