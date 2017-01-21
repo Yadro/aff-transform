@@ -1,0 +1,11 @@
+
+.matrix {
+    border: 1px solid black;
+    float: left;
+    margin-left: 5px;
+}
+
+.matrix input {
+    width: 100px;
+    margin: 2px;
+}

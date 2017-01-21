@@ -18,7 +18,7 @@ function tan(ang) {
 
 
 
-class Matrix22 {
+export class Matrix22 {
   private mtx;
 
   constructor(a1, a2, b1, b2) {
@@ -46,6 +46,10 @@ class Matrix22 {
       return new Matrix22(-1, 0, 0, 1);
     }
     return new Matrix22(1, 0, 0, -1);
+  }
+
+  getMtx() {
+    return this.mtx;
   }
 
   mul(m: Matrix22) {
