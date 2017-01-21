@@ -1,8 +1,9 @@
 import * as React from 'react';
 import MatrixContainer from "./MatrixContainer";
 import {Data, MatrixData} from "./MatrixInput";
-import {Draw, Matrix22, Rect, Operation} from "./Transformations";
-
+import Draw from "./Logic/Draw";
+import {Operation, Rect} from "./Logic/Figures";
+import Matrix22 from "./Logic/Matrix22";
 
 interface InterfaceS {
   lastId?: number;
