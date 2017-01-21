@@ -69,8 +69,8 @@ export default class Interface extends React.Component<any, InterfaceS> {
     for (let id in data) {
       if (data.hasOwnProperty(id)) {
         let matrix = data[id];
-        matrix = matrix.map(e => e.map(e => +e));
-        transforms.push({mul: new Matrix22(matrix)});
+        let transform = matrix.map(e => e.map(e => +e));
+        transforms.push({mul: new Matrix22(transform)});
       }
     }
 

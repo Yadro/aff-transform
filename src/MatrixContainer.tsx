@@ -19,7 +19,7 @@ export default class MatrixContainer extends React.Component<MatrixContainerP, a
     for (let id in data) {
       if (data.hasOwnProperty(id)) {
         let dataI = data[id];
-        el.push(<MatrixInput value={dataI} onChange={onChange.bind(null, id)} onRemove={onRemove.bind(null, +id)}/>);
+        el.push(<MatrixInput key={id} value={dataI} onChange={onChange.bind(null, id)} onRemove={onRemove.bind(null, +id)}/>);
       }
     }
     return el;
