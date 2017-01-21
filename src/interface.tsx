@@ -1,17 +1,16 @@
 import * as React from 'react';
 import MatrixContainer from "./MatrixContainer";
-import Draw from "./Logic/Draw";
 import {Operation, Rect} from "./Logic/Figures";
+import Draw from "./Logic/Draw";
 import Matrix22 from "./Logic/Matrix22";
 import {parseInputData} from "./Logic/tool";
 
-
-
-const types = {
+const matrixTypes = {
+  'default': [['0', '0'], ['0', '0']],
   'simmetr': [['-1', '0'], ['0', '1']],
-  'shift': [['1', 'tan(50)'], ['0', '1']],
-  'scale': [['', ''], ['', '']],
-  'rotate': [['', ''], ['', '']],
+  'scale': [['2', '0'], ['0', '2']],
+  'shift': (deg) => [['1', `tan(${deg})`], ['0', '1']],
+  'rotate': (deg) => [[`cos(${deg})`, `-sin(${deg})`], [`sin(${deg})`, `cos(${deg})`]],
 };
 
 export interface MatrixInputData {
@@ -28,15 +27,19 @@ export class Data {
   constructor(private update) {
     [
       'add',
-      'remove',
+      'addType',
+      'getElem',
+      'getAll',
       'onChange',
+      'onChangeType',
+      'remove',
     ].forEach(fn => this[fn] = this[fn].bind(this));
   }
 
   getElem(id) {
     const item = this.data.find(e => e.id == id);
     if (item) {
-      return item.value;
+      return item;
     }
   }
 
@@ -48,10 +51,32 @@ export class Data {
     this.lastId++;
     this.data.push({
       id: this.lastId,
-      value: [['0', '0'], ['0', '0']],
+      value: matrixTypes.default,
       type: null,
-      valueType: 10
+      valueType: null
     });
+    this.update();
+  }
+
+  addType(type) {
+    this.lastId++;
+    let valueType = ['shift', 'rotate'].indexOf(type) > -1 ? 45 : null;
+    this.data.push({
+      id: this.lastId,
+      value: valueType ? matrixTypes[type](valueType) : matrixTypes[type],
+      type: type,
+      valueType
+    });
+    this.update();
+  }
+
+  onChangeType(id, e) {
+    const item = this.data.find(e => e.id == id);
+    if (!item) {
+      return;
+    }
+    item.valueType = e.target.value;
+    item.value = matrixTypes[item.type](item.valueType);
     this.update();
   }
 
@@ -110,10 +135,10 @@ export default class Interface extends React.Component<any, InterfaceS> {
     return <div className="interface">
       <h3>Affine transformations</h3>
       <div className="btns">
-        <button onClick={null}>simmetr</button>
-        <button onClick={null}>shift</button>
-        <button onClick={null}>scale</button>
-        <button onClick={null}>rotate</button>
+        <button onClick={matrix.addType.bind(this, 'simmetr')}>simmetr</button>
+        <button onClick={matrix.addType.bind(this, 'scale')}>scale</button>
+        <button onClick={matrix.addType.bind(this, 'shift')}>shift</button>
+        <button onClick={matrix.addType.bind(this, 'rotate')}>rotate</button>
         <button onClick={matrix.add}>+</button>
         <button onClick={this.apply}>Apply</button>
       </div>

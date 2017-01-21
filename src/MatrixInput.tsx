@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {MatrixInputData, Data} from "./interface";
+import {Data} from "./interface";
 
 interface MatrixContainerP {
   value: number;
@@ -15,19 +15,20 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   renderMatrix() {
     const {value, matrix} = this.props;
     let inputs = [];
-    if (value) {
+    const data = matrix.getElem(value);
+    if (data.valueType != null) {
       inputs.push(
-        <div>
-          <input value={value} onChange={matrix.onChange.bind(null)}/>
+        <div key="edit">
+          <span>{data.type + ': '}</span>
+          <input value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
           <br/>
         </div>
       );
     }
-    const data = matrix.getElem(value);
     for (let j = 0; j < 2; j++) {
       let row = [];
       for (let i = 0; i < 2; i++) {
-        row.push(<input key={i} type="text" value={data[j][i]} onChange={matrix.onChange.bind(null, value, j, i)}/>);
+        row.push(<input key={i} type="text" value={data.value[j][i]} onChange={matrix.onChange.bind(null, value, j, i)}/>);
       }
       inputs.push(<div key={j}>{row}</div>);
     }
