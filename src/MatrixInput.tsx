@@ -1,12 +1,9 @@
 import * as React from 'react';
-
-export type MatrixData = string[][];
-export type Data = {[id:string]: MatrixData};
+import {MatrixInputData, Data} from "./interface";
 
 interface MatrixContainerP {
-  onChange: (row, pos, e) => any;
-  onRemove: (e) => any;
-  value: MatrixData;
+  value: number;
+  matrix: Data;
 }
 
 export default class MatrixInput extends React.Component<MatrixContainerP, any> {
@@ -16,12 +13,21 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   }
 
   renderMatrix() {
-    const {value, onChange} = this.props;
+    const {value, matrix} = this.props;
     let inputs = [];
+    if (value) {
+      inputs.push(
+        <div>
+          <input value={value} onChange={matrix.onChange.bind(null)}/>
+          <br/>
+        </div>
+      );
+    }
+    const data = matrix.getElem(value);
     for (let j = 0; j < 2; j++) {
       let row = [];
       for (let i = 0; i < 2; i++) {
-        row.push(<input key={i} type="text" value={value[j][i]} onChange={onChange.bind(null, j, i)}/>);
+        row.push(<input key={i} type="text" value={data[j][i]} onChange={matrix.onChange.bind(null, value, j, i)}/>);
       }
       inputs.push(<div key={j}>{row}</div>);
     }
@@ -29,10 +35,10 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   }
 
   render() {
-    const {onRemove} = this.props;
+    const {value, matrix} = this.props;
     return <div className="matrix">
       {this.renderMatrix()}
-      <button onClick={onRemove}>x</button>
+      <button onClick={matrix.remove.bind(null, value)}>x</button>
     </div>
   }
 }
