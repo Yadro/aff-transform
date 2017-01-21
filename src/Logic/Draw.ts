@@ -77,6 +77,3 @@ export default class Draw {
     });
   }
 }
-/**
- * Created by yadro on 21.01.2017.
- */

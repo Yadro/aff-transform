@@ -135,12 +135,19 @@ export default class Interface extends React.Component<any, InterfaceS> {
     return <div className="interface">
       <h3>Affine transformations</h3>
       <div className="btns">
-        <button onClick={matrix.addType.bind(this, 'simmetr')}>simmetr</button>
-        <button onClick={matrix.addType.bind(this, 'scale')}>scale</button>
-        <button onClick={matrix.addType.bind(this, 'shift')}>shift</button>
-        <button onClick={matrix.addType.bind(this, 'rotate')}>rotate</button>
-        <button onClick={matrix.add}>+</button>
-        <button onClick={this.apply}>Apply</button>
+        <span>Templates:</span>
+        <div>
+          <button onClick={matrix.addType.bind(this, 'simmetr')}>simmetr</button>
+          <button onClick={matrix.addType.bind(this, 'scale')}>scale</button>
+          <button onClick={matrix.addType.bind(this, 'shift')}>shift</button>
+          <button onClick={matrix.addType.bind(this, 'rotate')}>rotate</button>
+        </div>
+        <span>Actions:</span>
+        <div>
+          <button onClick={matrix.add}>+</button>
+          <button onClick={this.apply}>Apply</button>
+        </div>
+
       </div>
       <MatrixContainer matrix={matrix}/>
     </div>;

@@ -20,7 +20,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
       inputs.push(
         <div key="edit">
           <span>{data.type + ': '}</span>
-          <input value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
+          <input type="number" value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
           <br/>
         </div>
       );
