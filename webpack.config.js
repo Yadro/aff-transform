@@ -3,7 +3,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 
 module.exports = {
-  entry: path.resolve(__dirname, './src/index.ts'),
+  entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
     filename: 'build/bundle.js'
   },
