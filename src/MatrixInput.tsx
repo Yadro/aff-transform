@@ -37,7 +37,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
 
   render() {
     const {value, matrix} = this.props;
-    return <div className="matrix">
+    return <div>
       {this.renderMatrix()}
       <button onClick={matrix.remove.bind(null, value)}>x</button>
     </div>

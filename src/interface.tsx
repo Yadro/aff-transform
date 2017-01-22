@@ -23,6 +23,7 @@ export interface MatrixInputData {
 export class Data {
   lastId = -1;
   data: MatrixInputData[] = [];
+  size = 0;
 
   constructor(private update) {
     [
@@ -55,6 +56,7 @@ export class Data {
       type: null,
       valueType: null
     });
+    this.size++;
     this.update();
   }
 
@@ -67,6 +69,7 @@ export class Data {
       type: type,
       valueType
     });
+    this.size++;
     this.update();
   }
 
@@ -90,6 +93,7 @@ export class Data {
 
   remove(id) {
     this.data = this.data.filter(e => e.id != id);
+    this.size--;
     this.update();
   }
 }
