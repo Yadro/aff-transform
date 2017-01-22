@@ -1,17 +1,5 @@
 
-.container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 300px;
-    border-left: 1px solid black;
-    padding: 5px;
-    overflow-y: scroll;
-    background: #f7f7f7;
-}
-.interface {
-}
+
 .matrixContainer {
     padding-left: 20px;
 }
@@ -23,11 +11,18 @@
     border-radius: 4px;
     color: rgb(153, 153, 153);
     padding: 5px;
+    width: 250px;
     font-size: 24px;
     font-weight: 400;
     background-color: rgb(255, 255, 255);
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+}
+.matrix > div > div {
+    display: inline-block;
+}
+.matrix .matrix-btn-remove {
+    float: right;
 }
 .matrix-pressed {
     -webkit-user-select: none;
@@ -53,4 +48,15 @@
 }
 .btns button {
     margin-left: 5px;
+}
+
+.btn-with-label > div {
+    display: inline-block;
+}
+.btn-with-label .btn-label {
+    position: absolute;
+    top: 9px;
+    margin-left: 10px;
+    padding: 4px;
+    font-size: 13px;
 }

@@ -27,6 +27,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-motion": "^0.4.7",
+    "react-motion-menu": "^0.3.0",
     "react-tap-event-plugin": "^2.0.1"
   }
 }

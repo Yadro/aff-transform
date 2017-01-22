@@ -1,14 +1,12 @@
 import * as React from 'react';
 import {Data} from "./Data";
-import IconButton from 'material-ui/IconButton';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import {Delete} from "./Material";
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 interface MatrixContainerP {
   value: number;
   matrix: Data;
 }
-
-const Delete = (props) => <IconButton onClick={props.onClick}><DeleteIcon/></IconButton>;
 
 export default class MatrixInput extends React.Component<MatrixContainerP, any> {
   constructor(props) {
@@ -41,8 +39,12 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   render() {
     const {value, matrix} = this.props;
     return <div>
-      {this.renderMatrix()}
-      <Delete onClick={matrix.remove.bind(null, value)}/>
+      <div>
+        {this.renderMatrix()}
+      </div>
+      <div className="matrix-btn-remove">
+        <Delete onClick={matrix.remove.bind(null, value)}/>
+      </div>
     </div>
   }
 }
