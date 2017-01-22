@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MatrixInput from "./MatrixInput";
-import {Data} from "./interface";
+import {Data} from "./Data";
 import {Motion, spring} from "react-motion";
 
 const springConfig = {stiffness: 300, damping: 50};

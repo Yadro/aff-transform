@@ -1,13 +1,16 @@
 import * as React from 'react';
-import {Data} from "./interface";
+import {Data} from "./Data";
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 
 interface MatrixContainerP {
   value: number;
   matrix: Data;
 }
 
-export default class MatrixInput extends React.Component<MatrixContainerP, any> {
+const Delete = (props) => <IconButton onClick={props.onClick}><DeleteIcon/></IconButton>;
 
+export default class MatrixInput extends React.Component<MatrixContainerP, any> {
   constructor(props) {
     super(props);
   }
@@ -39,7 +42,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
     const {value, matrix} = this.props;
     return <div>
       {this.renderMatrix()}
-      <button onClick={matrix.remove.bind(null, value)}>x</button>
+      <Delete onClick={matrix.remove.bind(null, value)}/>
     </div>
   }
 }

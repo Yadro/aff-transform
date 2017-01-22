@@ -22,7 +22,7 @@
     transform-origin: 50% 50% 0;
     border-radius: 4px;
     color: rgb(153, 153, 153);
-    padding-left: 32px;
+    padding: 5px;
     font-size: 24px;
     font-weight: 400;
     background-color: rgb(255, 255, 255);
@@ -30,6 +30,9 @@
     -webkit-box-sizing: border-box;
 }
 .matrix-pressed {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 .matrix input {
