@@ -9,7 +9,7 @@ import Rotate from 'material-ui/svg-icons/image/rotate-left';
 import Transform from 'material-ui/svg-icons/image/transform';
 import SizeSelect from 'material-ui/svg-icons/image/photo-size-select-small';
 import Shift from 'material-ui/svg-icons/device/network-cell'
-import RaisedButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 // import MotionMenu from '../lib/react-motion/bundle.js';
 
 
@@ -73,16 +73,24 @@ export default class Interface extends React.Component<any, InterfaceS> {
 
 
         <MotionMenu>
-          <div style={{'margin-bottom': '15px'}}>
+          <div onClick={() => console.log('click')}>
             <CircleBtn><ContentAdd/></CircleBtn>
           </div>
           <div className="btn-with-label">
-            <CircleBtn mini><Flip/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true} margin="10">add</Paper>
+            <CircleBtn mini><Rotate/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>rotate</Paper>
           </div>
           <div className="btn-with-label">
             <CircleBtn mini><SizeSelect/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true}>add</Paper>
+            <Paper className="btn-label" zDepth={2} rounded={true}>scale</Paper>
+          </div>
+          <div className="btn-with-label">
+            <CircleBtn mini><Flip/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>simmetr</Paper>
+          </div>
+          <div className="btn-with-label">
+            <CircleBtn mini><Shift/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>shift</Paper>
           </div>
         </MotionMenu>
 

@@ -1,14 +1,18 @@
 import * as React from 'react';
+import {findDOMNode} from 'react-dom';
+
 import {spring, Motion} from "react-motion";
 import {merge, range} from "../animationTools";
 
 interface MotionMenuP {
-  margin: number;
-  distance: number;
-  rotation: boolean;
-  onOpen;
-  onClose;
-  onClick;
+  up?: boolean;
+  btnSize?: number;
+  margin?: number;
+  distance?: number;
+  rotation?: boolean;
+  onOpen?;
+  onClose?;
+  onClick?;
 }
 interface MotionMenuS {
   isShowTrigger?;
@@ -48,35 +52,55 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
 
   render() {
     const {isShowTrigger, isShow, idle} = this.state;
-    let {children, margin, distance} = this.props;
+    let {children, margin, distance, btnSize, up} = this.props;
     margin = margin ? margin : 10;
     distance = distance ? distance : 10;
+    distance = !isShowTrigger ? distance + 30 : distance;
     let begin = (i) => -i * distance;
     let end = (i) => i * distance + margin;
+    const dir = up ? -1 : 1;
+
+    const wrapper = (fn) => (i) => fn(i);
+    let dStyle, style;
+    if (isShowTrigger) {
+      dStyle = wrapper(begin);
+      style =  wrapper(end);
+    } else {
+      dStyle = wrapper(end);
+      style =  wrapper(begin);
+    }
+
+    const [button, ...itemsComp] = children;
+    const items = isShow && itemsComp.map((e, i) => {
+      i++;
+      return <Motion key={i}
+                     defaultStyle={{y: dStyle(i)}}
+                     style={{y: spring(style(i), springConfig)}}
+                     onRest={this.onRect}>
+        {({scale, shadow, y}) => {
+          const s = up ? {bottom: y} : {top: y};
+          let style = merge(itemStyle, s);
+          return <div className="itemStyle" style={style}>{e}</div>;
+        }}
+      </Motion>
+    });
     return <div>
-        <button onClick={this.onClick}>show</button>
-        {isShow && range(10).map((e, i) => {
-          return <Motion key={i}
-                         defaultStyle={{y: isShowTrigger ? begin(i) : end(i)}}
-                         style={{y: spring(isShowTrigger ? end(i) : begin(i), springConfig)}}
-                         onRest={this.onRect}
-          >
-            {({scale, shadow, y}) => {
-              let style = merge(itemStyle, {top: y});
-              return <div className="itemStyle" style={style}>button</div>;
-            }}
-          </Motion>
-        })}
+      {up ? items : null}
+      <div onClick={this.onClick}>
+        {button}
+      </div>
+      {!up ? items : null}
     </div>
   }
 }
 
 const itemStyle = {
   position: 'relative',
-  top: 0
 };
 
 const springConfig = {
-  precision: 1
+  precision: 1,
+  stiffness: 120,
+  damping: 14
 };
 
