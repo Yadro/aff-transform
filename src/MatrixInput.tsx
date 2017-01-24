@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Data} from "./Data";
 import {Delete} from "./Material";
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
 
 interface MatrixContainerP {
   value: number;
@@ -38,13 +39,13 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
 
   render() {
     const {value, matrix} = this.props;
-    return <div className="matrix">
+    return <Paper className="matrix">
       <div style={{display: 'inline'}}>
         {this.renderMatrix()}
       </div>
       <div className="matrix-btn-remove">
         <Delete onClick={matrix.remove.bind(null, value)}/>
       </div>
-    </div>
+    </Paper>;
   }
 }
