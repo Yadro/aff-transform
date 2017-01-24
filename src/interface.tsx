@@ -69,29 +69,6 @@ export default class Interface extends React.Component<any, InterfaceS> {
         </div>
       </div>
 
-
-      <div>
-        <MotionMenu>
-          <CircleBtn><ContentAdd/></CircleBtn>
-          <div className="btn-with-label">
-            <CircleBtn mini><Rotate/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true}>rotate</Paper>
-          </div>
-          <div className="btn-with-label">
-            <CircleBtn mini><SizeSelect/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true}>scale</Paper>
-          </div>
-          <div className="btn-with-label">
-            <CircleBtn mini><Flip/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true}>simmetr</Paper>
-          </div>
-          <div className="btn-with-label">
-            <CircleBtn mini><Shift/></CircleBtn>
-            <Paper className="btn-label" zDepth={2} rounded={true}>shift</Paper>
-          </div>
-        </MotionMenu>
-      </div>
-
       <MatrixContainer matrix={matrix}/>
 
       <div style={{
