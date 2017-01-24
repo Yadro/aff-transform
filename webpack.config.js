@@ -8,7 +8,7 @@ module.exports = {
     filename: 'build/bundle.js'
   },
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json', '.css', '.less']
   },
   module: {
     loaders: [

@@ -3,6 +3,7 @@ import {Data} from "./Data";
 import {Delete} from "./Material";
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 interface MatrixContainerP {
   value: number;
@@ -21,16 +22,20 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
     if (data.valueType != null) {
       inputs.push(
         <div key="edit">
-          <span>{data.type + ': '}</span>
-          <input type="number" value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
-          <br/>
+          <TextField floatingLabelText={data.type + ':'}
+                     type="number"
+                     className="matrix-input"
+                     value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
         </div>
       );
     }
+    let cell;
     for (let j = 0; j < 2; j++) {
       let row = [];
       for (let i = 0; i < 2; i++) {
-        row.push(<input key={i} type="text" value={data.value[j][i]} onChange={matrix.onChange.bind(null, value, j, i)}/>);
+        cell = data.value[j][i];
+        row.push(<TextField key={i} name={i} type='text' className="matrix-input" value={cell}
+                        onChange={matrix.onChange.bind(null, value, j, i)}/>);
       }
       inputs.push(<div key={j}>{row}</div>);
     }
@@ -40,7 +45,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   render() {
     const {value, matrix} = this.props;
     return <Paper className="matrix">
-      <div style={{display: 'inline'}}>
+      <div>
         {this.renderMatrix()}
       </div>
       <div className="matrix-btn-remove">

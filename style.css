@@ -21,7 +21,7 @@
 .matrix {
     position: relative;
     overflow: visible;
-    padding: 5px;
+    padding: 8px 16px;
     margin-bottom: 10px;
     width: 260px;
     color: rgb(153, 153, 153);
@@ -41,13 +41,10 @@
     -ms-user-select: none;
     user-select: none;
 }
-.matrix input {
-    width: 60px;
-    margin: 2px;
-    border-radius: 2px;
-    border: 1px solid #bfbfbf;
+.matrix-input {
+    width: 60px !important;
+    margin-right: 20px;
 }
-
 
 .matrix input:focus {
     border: 1px solid #4d90fe;
