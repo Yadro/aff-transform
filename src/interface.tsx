@@ -16,7 +16,7 @@ import Draw from "./Logic/Draw";
 import Matrix22 from "./Logic/Matrix22";
 import {parseInputData} from "./Logic/tool";
 import {Data} from "./Data";
-import {CircleBtn, RaisedBtn} from "./Material";
+import {CircleBtn} from "./Material";
 import MotionMenu from "./lib/MotionMenu";
 
 interface InterfaceS {
@@ -41,7 +41,7 @@ export default class Interface extends React.Component<any, InterfaceS> {
     const {drawControl, state} = this;
     const {matrix} = state;
     let transforms: Operation[] = [];
-    const data = matrix.getAll();
+    const data = matrix.getAll().filter(e => e.show);
     for (let id in data) {
       if (data.hasOwnProperty(id)) {
         let matrix = data[id].value;
