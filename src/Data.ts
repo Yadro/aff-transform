@@ -13,6 +13,7 @@ export interface MatrixInputData {
   value: string[][];
   type?;
   valueType?;
+  show;
 }
 
 export class Data {
@@ -28,6 +29,7 @@ export class Data {
       'getAll',
       'onChange',
       'onChangeType',
+      'toggleShow',
       'remove',
     ].forEach(fn => this[fn] = this[fn].bind(this));
   }
@@ -49,7 +51,8 @@ export class Data {
       id: this.lastId,
       value: matrixTypes.default,
       type: null,
-      valueType: null
+      valueType: null,
+      show: true,
     });
     this.size++;
     this.update();
@@ -62,8 +65,9 @@ export class Data {
       id: this.lastId,
       value: valueType ? matrixTypes[type](valueType) : matrixTypes[type],
       type: type,
-      valueType
-    });
+      valueType,
+      show: true,
+  });
     this.size++;
     this.update();
   }
@@ -83,6 +87,17 @@ export class Data {
     if (item) {
       item.value[row][el] = e.target.value;
     }
+    this.update();
+  }
+
+  toggleShow(id) {
+    let show = true;
+    this.data.map(e => {
+      e.show = show;
+      if (e.id == id) {
+        show = false;
+      }
+    });
     this.update();
   }
 

@@ -27,9 +27,6 @@
     color: rgb(153, 153, 153);
     background-color: rgb(255, 255, 255);
 }
-.matrix > div > div {
-    display: inline-block;
-}
 .matrix .matrix-btn-remove {
     position: absolute;
     top: 0;

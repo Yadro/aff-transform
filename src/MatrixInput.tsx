@@ -1,9 +1,12 @@
 import * as React from 'react';
 import {Data} from "./Data";
-import {Delete} from "./Material";
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import {grey500, grey700} from 'material-ui/styles/colors';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 
 interface MatrixContainerP {
   value: number;
@@ -21,12 +24,10 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
     const data = matrix.getElem(value);
     if (data.valueType != null) {
       inputs.push(
-        <div key="edit">
-          <TextField floatingLabelText={data.type + ':'}
-                     type="number"
-                     className="matrix-input"
-                     value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
-        </div>
+        <TextField floatingLabelText={data.type + ':'}
+                   type="number"
+                   className="matrix-input"
+                   value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
       );
     }
     let cell;
@@ -44,13 +45,16 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
 
   render() {
     const {value, matrix} = this.props;
+    const color = matrix.getElem(value).show ? grey700 : grey500;
     return <Paper className="matrix">
-      <div>
-        {this.renderMatrix()}
-      </div>
+      {this.renderMatrix()}
       <div className="matrix-btn-remove">
-        <Delete onClick={matrix.remove.bind(null, value)}/>
+        <div><Delete onClick={matrix.remove.bind(null, value)}/></div>
+        <div><Show onClick={matrix.toggleShow.bind(null, value)} color={color}/></div>
       </div>
     </Paper>;
   }
 }
+
+const Delete = (props) => <IconButton onClick={props.onClick}><DeleteIcon color={grey700}/></IconButton>;
+const Show = (props) => <IconButton onClick={props.onClick}><Eye color={props.color}/></IconButton>;
