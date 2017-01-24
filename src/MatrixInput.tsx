@@ -38,8 +38,8 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
 
   render() {
     const {value, matrix} = this.props;
-    return <div>
-      <div>
+    return <div className="matrix">
+      <div style={{display: 'inline'}}>
         {this.renderMatrix()}
       </div>
       <div className="matrix-btn-remove">
