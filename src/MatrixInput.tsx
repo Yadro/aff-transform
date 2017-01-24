@@ -24,7 +24,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
     const data = matrix.getElem(value);
     if (data.valueType != null) {
       inputs.push(
-        <TextField floatingLabelText={data.type + ':'}
+        <TextField key={'mi'} floatingLabelText={data.type + ':'}
                    type="number"
                    className="matrix-input"
                    value={data.valueType} onChange={matrix.onChangeType.bind(null, value)}/>
@@ -35,7 +35,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
       let row = [];
       for (let i = 0; i < 2; i++) {
         cell = data.value[j][i];
-        row.push(<TextField key={i} name={i} type='text' className="matrix-input" value={cell}
+        row.push(<TextField key={i} type="text" className="matrix-input" value={cell}
                         onChange={matrix.onChange.bind(null, value, j, i)}/>);
       }
       inputs.push(<div key={j}>{row}</div>);
@@ -46,7 +46,7 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   render() {
     const {value, matrix} = this.props;
     const color = matrix.getElem(value).show ? grey700 : grey500;
-    return <Paper className="matrix">
+    return <Paper className="matrix" key={value}>
       {this.renderMatrix()}
       <div className="matrix-btn-remove">
         <div><Delete onClick={matrix.remove.bind(null, value)}/></div>
