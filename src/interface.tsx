@@ -69,14 +69,13 @@ export default class Interface extends React.Component<any, InterfaceS> {
         </div>
       </div>
 
-      <MatrixContainer matrix={matrix}/>
-
       <div style={{
-          position: 'absolute',
+          position: 'fixed',
           right: 0,
           left: 0,
-          bottom: 0,
+          bottom: 10,
           padding: 10,
+          'z-index': 100,
         }}>
         <MotionMenu style={{float: 'left'}} up>
           <CircleBtn mini><ContentAdd/></CircleBtn>
@@ -101,6 +100,8 @@ export default class Interface extends React.Component<any, InterfaceS> {
           float: 'right'
         }}><Check/></CircleBtn>
       </div>
+
+      <MatrixContainer matrix={matrix}/>
     </Drawer>
   }
 }
