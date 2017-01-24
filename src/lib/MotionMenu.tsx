@@ -1,18 +1,16 @@
 import * as React from 'react';
-import {findDOMNode} from 'react-dom';
-
 import {spring, Motion} from "react-motion";
-import {merge, range} from "../animationTools";
+import {merge} from "../animationTools";
+import {invert} from "../tools";
 
 interface MotionMenuP {
   up?: boolean;
   btnSize?: number;
-  margin?: number;
   distance?: number;
-  rotation?: boolean;
   onOpen?;
   onClose?;
   onClick?;
+  style?;
 }
 interface MotionMenuS {
   isShowTrigger?;
@@ -34,7 +32,7 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
 
   onRect() {
     const {isShowTrigger, idle} = this.state;
-    console.log('onRect');
+    console.log(arguments);
     this.setState({isShow: isShowTrigger || !idle, idle: true});
   }
 
@@ -52,22 +50,18 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
 
   render() {
     const {isShowTrigger, isShow, idle} = this.state;
-    let {children, margin, distance, btnSize, up} = this.props;
-    margin = margin ? margin : 10;
-    distance = distance ? distance : 10;
-    distance = !isShowTrigger ? distance + 30 : distance;
-    let begin = (i) => -i * distance;
-    let end = (i) => i * distance + margin;
-    const dir = up ? -1 : 1;
-
-    const wrapper = (fn) => (i) => fn(i);
+    let {children, distance, btnSize, up} = this.props;
+    btnSize = btnSize ? btnSize : 20;
+    distance = distance ? distance : 50;
+    const begin = (i) => 0;
+    const end = (i) => i * distance + btnSize;
     let dStyle, style;
     if (isShowTrigger) {
-      dStyle = wrapper(begin);
-      style =  wrapper(end);
+      dStyle = begin;
+      style =  end;
     } else {
-      dStyle = wrapper(end);
-      style =  wrapper(begin);
+      dStyle = end;
+      style =  begin;
     }
 
     const [button, ...itemsComp] = children;
@@ -84,8 +78,8 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
         }}
       </Motion>
     });
-    return <div>
-      {up ? items : null}
+    return <div style={merge(this.props.style, {position: 'absolute'})}>
+      {up ? invert(items) : null}
       <div onClick={this.onClick}>
         {button}
       </div>
@@ -95,7 +89,7 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
 }
 
 const itemStyle = {
-  position: 'relative',
+  position: 'absolute',
 };
 
 const springConfig = {

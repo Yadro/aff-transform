@@ -9,9 +9,6 @@ import Rotate from 'material-ui/svg-icons/image/rotate-left';
 import Transform from 'material-ui/svg-icons/image/transform';
 import SizeSelect from 'material-ui/svg-icons/image/photo-size-select-small';
 import Shift from 'material-ui/svg-icons/device/network-cell'
-import RaisedButton from 'material-ui/RaisedButton';
-// import MotionMenu from '../lib/react-motion/bundle.js';
-
 
 import MatrixContainer from "./MatrixContainer";
 import {Operation, Rect} from "./Logic/Figures";
@@ -60,8 +57,8 @@ export default class Interface extends React.Component<any, InterfaceS> {
 
   render() {
     const {matrix} = this.state;
-    return <Drawer width={310} openSecondary={true} open={true}>
-      <AppBar title="Affine transformations" showMenuIconButton={false} />
+    return <Drawer width={310} openSecondary open>
+      <AppBar title="Affine transformations" showMenuIconButton={false}/>
       <div className="btns">
         <span>Templates:</span>
         <div>
@@ -70,12 +67,12 @@ export default class Interface extends React.Component<any, InterfaceS> {
           <button onClick={matrix.addType.bind(this, 'shift')}>shift</button>
           <button onClick={matrix.addType.bind(this, 'rotate')}>rotate</button>
         </div>
+      </div>
 
 
+      <div>
         <MotionMenu>
-          <div onClick={() => console.log('click')}>
-            <CircleBtn><ContentAdd/></CircleBtn>
-          </div>
+          <CircleBtn><ContentAdd/></CircleBtn>
           <div className="btn-with-label">
             <CircleBtn mini><Rotate/></CircleBtn>
             <Paper className="btn-label" zDepth={2} rounded={true}>rotate</Paper>
@@ -93,25 +90,40 @@ export default class Interface extends React.Component<any, InterfaceS> {
             <Paper className="btn-label" zDepth={2} rounded={true}>shift</Paper>
           </div>
         </MotionMenu>
-
-
-        <Paper zDepth={2} rounded={false} style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: '10px'
-        }}>
-
-
-
-          <CircleBtn mini onClick={matrix.add} style={{
-            float: 'right'
-          }}><ContentAdd/></CircleBtn>
-          <CircleBtn mini onClick={this.apply}><Check/></CircleBtn>
-        </Paper>
       </div>
+
       <MatrixContainer matrix={matrix}/>
+
+      <div style={{
+          position: 'absolute',
+          right: 0,
+          left: 0,
+          bottom: 0,
+          padding: 10,
+        }}>
+        <MotionMenu style={{float: 'left'}} up>
+          <CircleBtn mini><ContentAdd/></CircleBtn>
+          <div className="btn-with-label" onClick={matrix.addType.bind(this, 'rotate')}>
+            <CircleBtn mini><Rotate/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>rotate</Paper>
+          </div>
+          <div className="btn-with-label" onClick={matrix.addType.bind(this, 'scale')}>
+            <CircleBtn mini><SizeSelect/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>scale</Paper>
+          </div>
+          <div className="btn-with-label" onClick={matrix.addType.bind(this, 'simmetr')}>
+            <CircleBtn mini><Flip/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>simmetr</Paper>
+          </div>
+          <div className="btn-with-label" onClick={matrix.addType.bind(this, 'shift')}>
+            <CircleBtn mini><Shift/></CircleBtn>
+            <Paper className="btn-label" zDepth={2} rounded={true}>shift</Paper>
+          </div>
+        </MotionMenu>
+        <CircleBtn mini onClick={this.apply} style={{
+          float: 'right'
+        }}><Check/></CircleBtn>
+      </div>
     </Drawer>
   }
 }
