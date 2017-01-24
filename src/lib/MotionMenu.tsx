@@ -32,7 +32,6 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
 
   onRect() {
     const {isShowTrigger, idle} = this.state;
-    console.log(arguments);
     this.setState({isShow: isShowTrigger || !idle, idle: true});
   }
 
