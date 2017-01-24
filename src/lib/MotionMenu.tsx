@@ -73,7 +73,7 @@ export default class MotionMenu extends React.Component<MotionMenuP, MotionMenuS
         {({scale, shadow, y}) => {
           const s = up ? {bottom: y} : {top: y};
           let style = merge(itemStyle, s);
-          return <div className="itemStyle" style={style}>{e}</div>;
+          return <div className="itemStyle" onClick={this.onClick} style={style}>{e}</div>;
         }}
       </Motion>
     });
@@ -93,7 +93,7 @@ const itemStyle = {
 
 const springConfig = {
   precision: 1,
-  stiffness: 120,
+  stiffness: 200,
   damping: 14
 };
 
