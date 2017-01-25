@@ -1,21 +1,48 @@
 
+interface ToolsDefault {
+  isArray;
+  isObject;
+}
 
-export default function t<T>(value: T |T[]) {
+interface ToolsArray {
+  invert: () => any;
+  include: (value) => any;
+  forEach;
+  map;
+  reduce;
+  filter;
+  find;
+}
+
+interface ToolsObject {
+  forEach;
+  merge;
+}
+
+export default function t(value: Array<any>): ToolsDefault & ToolsArray;
+export default function t(value: Object): ToolsDefault & ToolsObject;
+export default function t(value: any): any {
   this.value = value;
-  let add = {};
+  let add;
   let obj = {
     isArray,
     isObject
   };
   if (isObject(value)) {
     add = {
-      hey() {
+      forEach() {
 
-      }
+      },
+      merge
     };
   } else if (isArray(value)) {
-    let array: T[] = this.value;
+    let array: any[] = this.value;
     add = {
+      forEach: array.forEach,
+      map: array.map,
+      reduce: array.reduce,
+      filter: array.filter,
+      find: array.find,
       include(value) {
         return array.indexOf(value) > -1;
       },
@@ -31,6 +58,9 @@ export default function t<T>(value: T |T[]) {
   return merge(obj, add);
 }
 
+
+
+
 function isObject(value) {
   return Object.prototype.toString.call(value) === '[object Object]';
 }
@@ -39,7 +69,7 @@ function isArray(value) {
   return Object.prototype.toString.call(value) === '[object Array]';
 }
 
-function merge<T, G, R extends T & G>(orig: T, add: G): R {
+function merge(orig, add): any {
   let res = {};
   for (let name in orig) {
     if (orig.hasOwnProperty(name)) {
