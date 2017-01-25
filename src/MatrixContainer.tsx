@@ -16,7 +16,7 @@ export default class MatrixContainer extends React.Component<MatrixContainerP, M
     const {matrix} = this.props;
     const el = [];
     matrix.getAll().forEach(e => {
-      el.push(<MatrixInput key={e.id} value={e.id} matrix={matrix}/>);
+      el.push(<MatrixInput key={e.id} value={e.id} matrix={matrix} deleted={e.deleted}/>);
     });
     return el;
   }

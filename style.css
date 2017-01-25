@@ -3,8 +3,8 @@
 }
 
 .matrixContainer {
-    padding-left: 5px;
-    overflow-y: scroll;
+    padding: 0 10px 80px;
+    overflow-y: auto;
     position: absolute;
     top: 120px;
     bottom: 0;
@@ -22,10 +22,16 @@
     position: relative;
     overflow: visible;
     padding: 8px 16px;
-    margin-bottom: 10px;
-    width: 260px;
+    margin: 10px;
+    transition: all 0.5s !important;
     color: rgb(153, 153, 153);
     background-color: rgb(255, 255, 255);
+}
+.matrix.removed {
+    height: 0;
+    padding: 0 16px;
+    background: #e2e2e2 !important;
+    overflow: hidden;
 }
 .matrix .matrix-btn-remove {
     position: absolute;

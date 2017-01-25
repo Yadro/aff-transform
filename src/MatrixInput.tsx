@@ -11,6 +11,7 @@ import Eye from 'material-ui/svg-icons/image/remove-red-eye';
 interface MatrixContainerP {
   value: number;
   matrix: Data;
+  deleted?;
 }
 
 export default class MatrixInput extends React.Component<MatrixContainerP, any> {
@@ -44,9 +45,9 @@ export default class MatrixInput extends React.Component<MatrixContainerP, any> 
   }
 
   render() {
-    const {value, matrix} = this.props;
+    const {value, matrix, deleted} = this.props;
     const color = matrix.getElem(value).show ? grey700 : grey500;
-    return <Paper className="matrix" key={value}>
+    return <Paper className={'matrix' + (deleted ? ' removed' : '')} key={value}>
       {this.renderMatrix()}
       <div className="matrix-btn-remove">
         <div><Delete onClick={matrix.remove.bind(null, value)}/></div>

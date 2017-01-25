@@ -1,25 +1,18 @@
 
-
-const matrixTypes = {
-  'default': [['0', '0'], ['0', '0']],
-  'simmetr': [['-1', '0'], ['0', '1']],
-  'scale': [['2', '0'], ['0', '2']],
-  'shift': (deg) => [['1', `tan(${deg})`], ['0', '1']],
-  'rotate': (deg) => [[`cos(${deg})`, `-sin(${deg})`], [`sin(${deg})`, `cos(${deg})`]],
-};
-
 export interface MatrixInputData {
   id: number;
   value: string[][];
   type?;
   valueType?;
   show;
+  deleted?;
 }
 
 export class Data {
   lastId = -1;
   data: MatrixInputData[] = [];
   size = 0;
+  lastRemoved: MatrixInputData;
 
   constructor(private update) {
     [
@@ -101,9 +94,35 @@ export class Data {
     this.update();
   }
 
+  restore() {
+    this.lastRemoved.deleted = false;
+    this.data.push(this.lastRemoved);
+    this.update();
+  }
+
   remove(id) {
+    window.setTimeout(() => {
+      this.deleteEl(id);
+    }, 500);
+    const el = this.data.find(e => e.id == id);
+    if (el) {
+      el.deleted = true;
+      this.update(true);
+    }
+  }
+
+  deleteEl(id) {
+    this.lastRemoved = this.data.find(e => e.id == id);
     this.data = this.data.filter(e => e.id != id);
     this.size--;
     this.update();
   }
 }
+
+const matrixTypes = {
+  'default': [['1', '0'], ['0', '1']],
+  'simmetr': [['-1', '0'], ['0', '1']],
+  'scale': [['2', '0'], ['0', '2']],
+  'shift': (deg) => [['1', `tan(${deg})`], ['0', '1']],
+  'rotate': (deg) => [[`cos(${deg})`, `-sin(${deg})`], [`sin(${deg})`, `cos(${deg})`]],
+};
